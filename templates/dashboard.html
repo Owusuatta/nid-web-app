@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .controls a button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .controls a button:hover {
+            background: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        table th {
+            background-color: #f2f2f2;
+        }
+        .actions button {
+            padding: 5px 10px;
+            margin: 2px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .actions button:hover {
+            background: #218838;
+        }
+        .actions .delete {
+            background: #dc3545;
+        }
+        .actions .delete:hover {
+            background: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, Admin</h2>
+
+        <div class="controls">
+            <a href="{{ url_for('register') }}"><button>➕ Register New Citizen</button></a>
+            <a href="{{ url_for('verify') }}"><button>🔍 Verify Citizen</button></a>
+            <a href="{{ url_for('logout') }}"><button>🔓 Logout</button></a>
+            <a href="{{ url_for('export_csv') }}"><button>📤 Export CSV</button></a>
+           <a href="{{ url_for('admin_profile') }}"><button>🔐 Update Admin Profile</button></a>
+
+
+
+        </div>
+
+        <h3>Registered Citizens</h3>
+        <table>
+            <tr>
+                <th>Full Name</th>
+                <th>DOB</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>National ID</th>
+                <th>Timestamp</th>
+                <th>Actions</th>
+            </tr>
+            {% for c in citizens %}
+            <tr>
+                <td>{{ c[0] }}</td>
+                <td>{{ c[1] }}</td>
+                <td>{{ c[2] }}</td>
+                <td>{{ c[3] }}</td>
+                <td>{{ c[4] }}</td>
+                <td>{{ c[5] }}</td>
+                <td class="actions">
+                    <a href="{{ url_for('edit_citizen', nid=c[4]) }}"><button>Edit</button></a>
+                    <a href="{{ url_for('delete_citizen', nid=c[4]) }}" onclick="return confirm('Delete this record?');"><button class="delete">Delete</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verify Citizen</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .verify-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .verify-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        form button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 25px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background: #0056b3;
+        }
+
+        .result {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .result h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .result p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .flash {
+            background: #ffdddd;
+            padding: 10px;
+            margin-top: 30px;
+            color: red;
+            text-align: center;
+            border: 1px solid #ffaaaa;
+            border-radius: 5px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-link a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-container">
+        <h2>Verify Citizen</h2>
+        <form method="POST">
+            <label>Search By:</label>
+            <select name="field" required>
+                <option value="national_id">National ID</option>
+                <option value="full_name">Full Name</option>
+            </select>
+
+            <label>Enter Value:</label>
+            <input type="text" name="query" required>
+
+            <button type="submit">Verify</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h3>Citizen Found:</h3>
+            <p><strong>Full Name:</strong> {{ result[0] }}</p>
+            <p><strong>Date of Birth:</strong> {{ result[1] }}</p>
+            <p><strong>Gender:</strong> {{ result[2] }}</p>
+            <p><strong>Address:</strong> {{ result[3] }}</p>
+            <p><strong>National ID:</strong> {{ result[4] }}</p>
+            <p><strong>Timestamp:</strong> {{ result[5] }}</p>
+        </div>
+        {% elif result is not none %}
+        <div class="flash">❌ No citizen found with that information.</div>
+        {% endif %}
+
+        <div class="back-link">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>
